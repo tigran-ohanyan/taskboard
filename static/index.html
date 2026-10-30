@@ -79,6 +79,15 @@
     </form>
   </dialog>
 
+  <!-- board dialog -->
+  <dialog id="board-dialog">
+    <form method="dialog" id="board-form" novalidate>
+      <h2>New board</h2>
+      <label>Board name<input name="name" required maxlength="120" autocomplete="off" placeholder="Website redesign"></label>
+      <div class="dialog-actions"><span class="spacer"></span><button type="button" class="btn btn-ghost" id="board-cancel">Cancel</button><button type="submit" class="btn">Create</button></div>
+    </form>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="/static/js/app.js"></script>
 </body>

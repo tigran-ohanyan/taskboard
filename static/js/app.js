@@ -58,12 +58,18 @@
     $("#boards").innerHTML = state.boards.map((b) => `<li><button class="${b.id === state.boardId ? "active" : ""}" data-board="${b.id}"><span>${esc(b.name)}</span><small>${b.task_count}</small></button></li>`).join("");
   }
   $("#boards").addEventListener("click", async (e) => { const b = e.target.closest("button[data-board]"); if (!b) return; state.boardId = Number(b.dataset.board); renderBoards(); await loadTasks(); });
-  async function createBoard() {
-    const name = prompt("Board name");
-    if (!name || !name.trim()) return;
-    const board = await api("/boards", { method: "POST", body: { name: name.trim() } });
-    await loadBoards(board.id); toast("Board created");
-  }
+  const boardDialog = $("#board-dialog"), boardForm = $("#board-form");
+  function createBoard() { boardForm.reset(); boardDialog.showModal(); boardForm.name.focus(); }
+  $("#board-cancel").addEventListener("click", () => boardDialog.close());
+  boardForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = boardForm.name.value.trim();
+    if (!name) { boardForm.name.focus(); return; }
+    try {
+      const board = await api("/boards", { method: "POST", body: { name } });
+      boardDialog.close(); await loadBoards(board.id); toast("Board created");
+    } catch (err) { toast(err.message); }
+  });
   $("#new-board").addEventListener("click", createBoard);
   $("#first-board").addEventListener("click", createBoard);
   $("#rename-board").addEventListener("click", () => { const h = $("#board-name"); h.contentEditable = "true"; h.focus(); document.getSelection().selectAllChildren(h); });
