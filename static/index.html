@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taskboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230ea5e9'/><rect x='14' y='16' width='10' height='32' rx='3' fill='white'/><rect x='27' y='16' width='10' height='22' rx='3' fill='white' opacity='.8'/><rect x='40' y='16' width='10' height='14' rx='3' fill='white' opacity='.6'/></svg>">
+</head>
+<body>
+  <!-- auth -->
+  <section class="auth" id="auth" hidden>
+    <div class="auth-card">
+      <div class="logo"><span></span>Taskboard</div>
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-mode="login">Sign in</button>
+        <button role="tab" aria-selected="false" data-mode="register">Create account</button>
+      </div>
+      <form id="auth-form" novalidate>
+        <label>Email<input type="email" name="email" required autocomplete="email" placeholder="you@example.com"></label>
+        <label>Password<input type="password" name="password" required minlength="8" autocomplete="current-password" placeholder="At least 8 characters"></label>
+        <button class="btn btn-block" type="submit" id="auth-submit">Sign in</button>
+        <p class="error" id="auth-error" role="alert"></p>
+      </form>
+      <p class="hint">Demo app: data is stored on this server only. Use any email.</p>
+    </div>
+  </section>
+
+  <!-- app -->
+  <div class="app" id="app" hidden>
+    <aside class="sidebar">
+      <div class="logo"><span></span>Taskboard</div>
+      <div class="side-head"><h2>Boards</h2><button class="icon-btn" id="new-board" title="New board" aria-label="New board">+</button></div>
+      <ul class="boards" id="boards"></ul>
+      <div class="side-foot">
+        <span class="muted" id="user-email"></span>
+        <button class="link" id="logout">Sign out</button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="board-head">
+        <h1 id="board-name" contenteditable="false" spellcheck="false"></h1>
+        <div class="board-actions">
+          <button class="btn btn-ghost" id="rename-board">Rename</button>
+          <button class="btn btn-ghost danger" id="delete-board">Delete</button>
+        </div>
+      </header>
+      <section class="columns" id="columns">
+        <div class="column" data-status="todo"><header><h3>To do</h3><span class="count"></span></header><div class="tasks" data-status="todo"></div><button class="add-task" data-status="todo">+ Add task</button></div>
+        <div class="column" data-status="doing"><header><h3>In progress</h3><span class="count"></span></header><div class="tasks" data-status="doing"></div><button class="add-task" data-status="doing">+ Add task</button></div>
+        <div class="column" data-status="done"><header><h3>Done</h3><span class="count"></span></header><div class="tasks" data-status="done"></div><button class="add-task" data-status="done">+ Add task</button></div>
+      </section>
+      <div class="empty-state" id="no-boards" hidden>
+        <h2>No boards yet</h2><p class="muted">Create your first board to start adding tasks.</p>
+        <button class="btn" id="first-board">Create a board</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- task dialog -->
+  <dialog id="task-dialog">
+    <form method="dialog" id="task-form" novalidate>
+      <h2 id="task-dialog-title">New task</h2>
+      <label>Title<input name="title" required maxlength="200" autocomplete="off"></label>
+      <label>Description<textarea name="description" rows="4"></textarea></label>
+      <div class="row">
+        <label>Priority<select name="priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></label>
+        <label>Due date<input type="date" name="due_date"></label>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost danger" id="task-delete" hidden>Delete</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-ghost" id="task-cancel">Cancel</button>
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
