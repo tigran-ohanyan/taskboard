@@ -3,6 +3,8 @@
 Kanban board with a real backend: FastAPI + SQLAlchemy + SQLite, JWT authentication, and a vanilla
 JavaScript frontend with drag and drop. One container, no external services.
 
+![Screenshot](docs/screenshot.jpg)
+
 ## Features
 
 **API** (`/docs` has the interactive OpenAPI UI)
